@@ -2,7 +2,14 @@ const { merge } = require('webpack-merge')
 const config = require('./webpack.base')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
 const resolve = src => path.join(process.cwd(), src)
+// process.env.NODE_ENV是在编译后设置
+// 无论webpack的mode是什么，都不会让webpack runtime过程中可以使用NODE_ENV
+// https://github.com/webpack/webpack/issues/7074
+// https://github.com/webpack/webpack/issues/2537
+process.env.NODE_ENV = 'production'
+
 const cssRules = [
   {
     test: /\.css$/,
@@ -44,27 +51,5 @@ module.exports = merge(config, {
   },
   module: {
     rules: cssRules
-  },
-  optimization: {
-    splitChunks: {
-      // minSize的默认值是20000bytes,差不多是20Kb的样子，所以如果包的体积比较小，是不会被切割的
-      // 所以如果希望这个界限值更小的话，需要主动设置minSize
-      minSize: 2000,
-      maxSize: 0,
-      cacheGroups: {
-        vendors: {
-          name: 'chunk-vender',
-          test: /[\\\/]node_modules[\\\/]/,
-          priority: -10,
-          chunks: 'initial'
-        },
-        common: {
-          filename: '[name].common.js',
-          minChunks: 2,
-          priority: -20,
-          chunks: 'initial'
-        }
-      }
-    }
   }
 })

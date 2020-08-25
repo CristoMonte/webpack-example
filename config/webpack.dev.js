@@ -5,6 +5,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const resolve = src => path.join(process.cwd(), src)
+process.env.NODE_ENV = 'development'
 
 
 const cssRules = [
@@ -56,25 +57,6 @@ module.exports = merge(config, {
     compress: true,
     port: 8080,
     hot: true
-  },
-  // cli3中,在development环境下，虽然没有主动声明优化，但是有默认的优化配置
-  optimization: {
-    splitChunks: {
-      minSize: 2000,
-      cacheGroups: {
-        vendors: {
-          name: 'chunk-vender',
-          test: /[\\\/]node_modules[\\\/]/,
-          priority: -10,
-          chunks: 'initial'
-        },
-        common: {
-          minChunks: 2,
-          priority: -20,
-          chunks: 'initial'
-        }
-      }
-    }
   },
   module: {
     rules: cssRules
