@@ -17,16 +17,25 @@ module.exports = {
 
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.runtime.esm.js'
+      // 只会命中以vue结尾的导入语句，
+      'vue$': 'vue/dist/vue.runtime.esm.js',
+      '@': '../src'
     },
+    // 解析的时候如果有同名文件，会先使用js文件
     extensions: [
       '.js',
       '.vue',
       '.json'
+    ],
+    // webpack去那些目录下寻找第三方模块，默认只会去node_modules下寻找
+    modules: [
+      'node_modules'
     ]
   },
 
   module: {
+    // 让webpack忽略对部分没采用模块化文件的文件的递归解析和处理，提高构建性能。
+    noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/,
     rules: [
       {
         test: /\.vue$/,

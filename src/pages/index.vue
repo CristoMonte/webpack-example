@@ -29,6 +29,7 @@ export default {
   text-align: center;
 }
 .index-page__btn {
+  box-sizing: border-box;
   width: 100px;
   height: 20px;
   background: #ff0;

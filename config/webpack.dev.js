@@ -52,10 +52,10 @@ module.exports = merge(config, {
     chunkFilename: 'js/[name].[hash].js'
   },
   devtool: '#@cheap-source-map',
+  // 使用devsServer时webpack 监听模式时默认开启的watch:true， 默认情况下是false
   devServer: {
     contentBase: resolve('dist'),
     compress: true,
-    port: 8080,
     hot: true
   },
   module: {
